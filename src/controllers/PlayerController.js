@@ -20,33 +20,38 @@ module.exports = {
       skills,
     } = req.body
 
-    let player = await Player.findOne({ username })
+    let player = await Player.findOne({
+      username
+    })
 
-    if (!player) {
-
-      const boardgamesArray = ParseStringAsArray(boardgames)
-      const location = {
-        type: 'Point',
-        coordinates: [longitude, latitude]
-      }
-
-      player = await Player.create({
-        name,
-        username,
-        email,
-        password,
-        age,
-        bio,
-        avatar_url,
-        boardgames: boardgamesArray,
-        location,
-        rating,
-        level,
-        skills
+    if (player) {
+      return res.status(400).send({
+        error: 'Usuário já cadastrado'
       })
     }
 
+    const boardgamesArray = ParseStringAsArray(boardgames)
+    const location = {
+      type: 'Point',
+      coordinates: [longitude, latitude]
+    }
 
+    player = await Player.create({
+      name,
+      username,
+      email,
+      password,
+      age,
+      bio,
+      avatar_url,
+      boardgames: boardgamesArray,
+      location,
+      rating,
+      level,
+      skills
+    })
+
+    player.password = undefined
 
     return res.json(player)
   },
@@ -60,9 +65,11 @@ module.exports = {
   // show one player
   async show(req, res) {
     // const players = await Player.find({ username: username, password: password })
-    const players = await Player.find({ username: "Administrador 1" })
+    const players = await Player.find({
+      username: "Administrador 1"
+    })
     return res.json(players)
   },
 
-  async(req, res) { }
+  async (req, res) {}
 }

@@ -2,10 +2,31 @@ const mongoose = require('mongoose')
 const PointSchema = require('./utils/PointSchema')
 
 const PlayerSchema = new mongoose.Schema({
-  name: String,
-  username: String,
-  email: String,
-  password: String,
+
+  name: {
+    type: String,
+    require: true,
+  },
+  username: {
+    type: String,
+    unique: true,
+    require: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    select: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   age: Number,
   bio: String,
   avatar_url: String,
