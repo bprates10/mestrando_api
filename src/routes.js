@@ -1,10 +1,15 @@
-const { Router } = require('express')
+const {
+  Router
+} = require('express')
+const AuthController = require('./controllers/AuthController')
 const PlayerController = require('./controllers/PlayerController')
 const SearchController = require('./controllers/SearchController')
 const GamesController = require('./controllers/GamesController')
 
 const routes = Router()
 
+// auth
+routes.post('/auth', AuthController.index)
 // add
 routes.post('/players', PlayerController.store)
 // listar
